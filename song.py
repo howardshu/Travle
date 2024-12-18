@@ -3,7 +3,7 @@ import string
 
 
 class Song:
-    def __init__(self, title, number, album, length, features):
+    def __init__(self, title, album, number, length, features):
         self.title = title
         self.album = album  # int based on constants from data.py
         self.number = number
@@ -12,11 +12,14 @@ class Song:
         # self.streams = streams # load from Spotify API
 
     def check_match(self, other_song):
+        hit = True
         print(other_song.title)
         if self.title == other_song.title:
             print("G")
         else:
             print("B")
+            hit = False
+
 
         print(albums[other_song.album])
         numerical_comp(self.album, other_song.album, 2)
@@ -39,17 +42,23 @@ class Song:
         else:
             print("B")
 
+        return hit
+
 
 def numerical_comp(num1, num2, leeway):
     diff = num1 - num2
     if diff == 0:
         print("G")
-    elif 0 < diff <= leeway:
-        print("Y, U")
-    elif diff >= -leeway:
-        print("Y, D")
+    elif diff > 0:
+        if diff <= leeway:
+            print("Y, U")
+        else:
+            print("B, U")
     else:
-        print("B")
+        if diff >= -leeway:
+            print("Y, D")
+        else:
+            print("B, D")
 
 
 
