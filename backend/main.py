@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from data import songs, get_songs
 from contextlib import asynccontextmanager
@@ -14,7 +15,17 @@ async def lifespan(app: FastAPI):
     # Load songs when the API starts.
     get_songs()
     yield
+
 app = FastAPI(lifespan=lifespan)
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # React app origin
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
 
 # Global variables for the game
 target = None  # Target song for the current game
