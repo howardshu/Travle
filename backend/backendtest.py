@@ -21,7 +21,7 @@ if __name__ == '__main__':
                 search.append(song.title)
 
         if songHit is not None:
-            won = target.check_match(songHit)
+            won, _ = target.check_match(songHit)
         else:
             print(search)
 

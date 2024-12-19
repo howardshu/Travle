@@ -9,6 +9,14 @@ UTOPIA = 6
 albums = ["Days Before Rodeo", "Rodeo", "Birds In The Trap Sing McKnight", "Huncho Jack, Jack Huncho",
           "Astroworld", "Jackboys", "Utopia"]
 
+GREEN = 'G'
+YELLOW_UP = 'U'
+YELLOW_DOWN = 'D'
+BLACK_UP = 'H'
+BLACK_DOWN = 'L'
+BLACK = 'B'
+YELLOW = 'Y'
+
 from song import Song
 
 # 12 + 16 + 14 + 13 + 17 + 7 + 19 = 98 songs in catalog
