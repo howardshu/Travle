@@ -1,9 +1,10 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from data import songs, get_songs
 from contextlib import asynccontextmanager
-import random
+from game import Game
+from song import Song
 import re
 """
 This file creates API endpoints for the backend at which the frontend can post user inputs and receive results
@@ -28,8 +29,8 @@ app.add_middleware(
 )
 
 # Global variables for the game
-target = None  # Target song for the current game
 game_active = False
+game = None
 
 
 # Models for request and response
@@ -46,8 +47,9 @@ class GuessRequest(BaseModel):
 
 
 class GuessResponse(BaseModel):
-    song_found: bool
+    song_found: dict
     correct: bool
+    guesses: int
     colors: str
 
 
@@ -60,8 +62,8 @@ def start_game():
     """
     Start a new game by selecting a random target song.
     """
-    global target, game_active
-    target = random.choice(songs)  # Choose a random song
+    global game_active, game
+    game = Game()
     game_active = True
 
     return StartGameResponse(targetHint="The game has started! Guess the song title.")
@@ -88,44 +90,30 @@ def search(input: SearchRequest):
     return SearchResponse(search=search)
 
 
+@app.get("/test")
+def test():
+    # assess if posting an arbitrary object works
+    return Song("STARGAZING", 4, 1, "4:30", [])
+
+
 @app.post("/make_guess", response_model=GuessResponse)
 def make_guess(guess: GuessRequest):
     """
     Handle a player's guess.
     """
-    global target, game_active
-
+    global game, game_active
     if not game_active:
         raise HTTPException(status_code=400, detail="No active game. Start a new game first.")
 
     song_title = guess.songTitle
-    song_hit = None
-    # search = []
+    stat_str, num_guesses, solved, song_hit = game.guess(song_title)
 
-    # Search for the guessed song in the songs list
-    for song in songs:
-        if song.title == song_title:
-            song_hit = song
-            break
-        # elif re.search(song_title, song.title, re.IGNORECASE):
-        #     search.append(song.title)
-
-    if song_hit is not None:
-        # Check if the guessed song matches the target
-        correct, stat_str = target.check_match(song_hit)
-        if correct:
-            game_active = False  # End the game if the guess is correct
-        return GuessResponse(
-            song_found=True,
-            correct=correct,
-            colors=stat_str
-        )
-    else:
-        return GuessResponse(
-            song_found=False,
-            correct=False,
-            colors=""
-        )
+    return GuessResponse(
+        song_found=song_hit.dict() if song_hit else {},
+        correct=solved,
+        guesses=num_guesses,
+        colors=stat_str,
+    )
 
 
 # Likely not needed

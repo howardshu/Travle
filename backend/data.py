@@ -22,6 +22,7 @@ from song import Song
 # 12 + 16 + 14 + 13 + 17 + 7 + 19 = 98 songs in catalog
 songs = []
 
+
 def get_songs():
     # TODO: Spotify API stuff
     # ORDER FEATURE NAMES ALPHABETICALLY

@@ -2,24 +2,29 @@ import React, { useState } from "react";
 import axios from "axios";
 import GuessForm from "./GuessForm";
 import SearchResults from "./SearchResults";
+import GuessList from "./GuessList";
 
 const API_BASE_URL = "http://127.0.0.1:8000"; // Replace with your backend URL
 
 const Game = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [solved, setSolved] = useState(false);
-  const [valid, setValid] = useState(true); // TODO: add warning about invalid guess
-  const [colors, setColors] = useState("");
+  // const [valid, setValid] = useState(true); // TODO: add warning about invalid guess
+  // const [colors, setColors] = useState("");
   const [search, setSearch] = useState([]);
-  const [guess, setGuess] = useState("");
+  const [guesses, setGuesses] = useState(0)
+  const [guessList, setGuessList] = useState([]);
+  // const [guess, setGuess] = useState("");
   const [message, setMessage] = useState("");
 
   const startGame = async () => {
     try {
       const response = await axios.post(`${API_BASE_URL}/start_game`);
       setGameStarted(true);
-      setColors("");
+      setSolved(false)
       setSearch([]);
+      setGuesses(0);
+      setGuessList([]);
       setMessage("The game has started! Guess the song.")
     } catch (error) {
       console.error("Error starting game:", error);
@@ -30,13 +35,17 @@ const Game = () => {
   const submitGuess = async (songTitle) => {
     try {
       const response = await axios.post(`${API_BASE_URL}/make_guess`, { "songTitle": songTitle });
-      setSolved(response.data.song_found);
       setSolved(response.data.correct);
-      setColors(response.data.colors);
+      setGuesses(response.data.guesses);
+      // setColors(response.data.colors);
 
-      if (response.data.correct) {
-        setGameStarted(false); // TODO: optimize to show congratulations screen before ending the game
+      if(Object.keys(response.data.song_found).length > 0) {
+        setGuessList([...guessList, {song: response.data.song_found, colors: response.data.colors}]);
       }
+
+      // if (response.data.correct) {
+      //   setGameStarted(false); // TODO: optimize to show congratulations screen before ending the game
+      // }
     } catch (error) {
       console.error("Error making a guess:", error);
       setMessage("Failed to submit your guess. Try again.");
@@ -62,10 +71,17 @@ const Game = () => {
       ) : (
         <>
           <GuessForm onSubmit={submitGuess} />
+          Number of guesses: {guesses}/8
           <SearchResults searchResults={search} />
-          <p>Colors={colors}</p>
+          <GuessList guessList={guessList} />
         </>
       )}
+      {solved ? (
+        <> 
+        You did it! 
+        <button onClick={startGame}>Start a new game</button>
+        </>
+      ) : null}
     </div>
   );
 };

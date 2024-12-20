@@ -1,14 +1,21 @@
 import data
-import string
+# from pydantic import BaseModel
+# from typing import List
 
 
 class Song:
+    # title: str
+    # album: int
+    # number: int
+    # length: str
+    # features: List[str]
+
     def __init__(self, title, album, number, length, features):
         self.title = title
         self.album = album  # int based on constants from data.py
         self.number = number
         self.length = length
-        self.features = features # array of strings
+        self.features = features  # array of strings
         # self.streams = streams # load from Spotify API
 
     def check_match(self, other_song):
@@ -48,6 +55,15 @@ class Song:
             stat_string += data.BLACK
 
         return correct, stat_string
+
+    def dict(self):
+        return {
+            "title": self.title,
+            "album": data.albums[self.album],
+            "number": self.number,
+            "length": self.length,
+            "features": self.features
+        }
 
 
 def numerical_comp(num1, num2, leeway):
