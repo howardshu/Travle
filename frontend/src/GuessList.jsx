@@ -1,15 +1,36 @@
 import React from "react";
+import "./styles.css";
+
+const colorMap = {
+    'G': "green",
+    'U': "yellow",
+    'D': "yellow",
+    'H': "black",
+    'L': "black",
+    'B': "black",
+    'Y': "yellow"
+}
+
+const arrowMap = {
+    'G': "",
+    'U': " ↑",
+    'D': " ↓",
+    'H': " ↑",
+    'L': " ↓",
+    'B': "",
+    'Y': ""
+}
 
 const GuessList = ({ guessList = [] }) => {
   if (guessList.length == 0) {
     return null;
   }
-//   console.log(guessList[0].song.title)
-
+  console.log(colorMap['G'])
+  // TODO: implement guessList as a static variable so don't have to loop through whole list each time
   return (
     <div>
       <h3>Guesses</h3>
-        <table>
+        <table style={{ width: 1500 }}>
           <thead>
             <tr>
               <th>Song</th>
@@ -17,18 +38,14 @@ const GuessList = ({ guessList = [] }) => {
               <th>Track No.</th>
               <th>Track Length</th>
               <th>Features</th>
-              <th>Colors</th>
             </tr>
           </thead>
-          {guessList.map((guess) => (
-          <tbody>
-            <tr>
-              <td>{guess.song.title}</td>
-              <td>{guess.song.album}</td>
-              <td>{guess.song.number}</td>
-              <td>{guess.song.length}</td>
-              <td>{guess.song.features}</td>
-              <td>{guess.colors}</td>
+          {guessList.map((guess, rowIndex) => (
+            <tbody>
+            <tr key={rowIndex}>
+              {Object.values(guess.song).map((value, colIndex) => (
+                <td key={colIndex} style={{ backgroundColor: colorMap[guess.colors[colIndex]] }}>{value}{arrowMap[guess.colors[colIndex]]}</td>
+              ))}
             </tr>
           </tbody>))}
         </table>
