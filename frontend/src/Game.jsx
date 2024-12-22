@@ -3,15 +3,16 @@ import axios from "axios";
 import GuessForm from "./GuessForm";
 import SearchResults from "./SearchResults";
 import GuessList from "./GuessList";
+import "./styles.css";
 
-const API_BASE_URL = "http://127.0.0.1:8000"; // Replace with your backend URL
+const API_BASE_URL = "http://127.0.0.1:8000";
 
 const Game = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [solved, setSolved] = useState(false);
   // const [valid, setValid] = useState(true); // TODO: add warning about invalid guess
   // const [colors, setColors] = useState("");
-  const [search, setSearch] = useState([]);
+  // const [search, setSearch] = useState([]);
   const [guesses, setGuesses] = useState(0)
   const [guessList, setGuessList] = useState([]);
   // const [guess, setGuess] = useState("");
@@ -52,6 +53,7 @@ const Game = () => {
     }
   };
 
+  // no longer necessary if GuessForm autocompletion works
   const doSearch = async (title) => {
     try {
       const response = await axios.post(`${API_BASE_URL}/search`, { "title": title });
@@ -72,7 +74,6 @@ const Game = () => {
         <>
           <GuessForm onSubmit={submitGuess} />
           Number of guesses: {guesses}/8
-          <SearchResults searchResults={search} />
           <GuessList guessList={guessList} />
         </>
       )}

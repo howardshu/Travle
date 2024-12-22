@@ -1,3 +1,4 @@
+// no longer necessary if GuessForm autocompletion works
 import React from "react";
 
 const SearchResults = ({ results = [] }) => {

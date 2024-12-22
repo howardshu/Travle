@@ -1,4 +1,49 @@
+* {
+    margin: auto;
+    box-sizing: border-box;
+}
 table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
+}
+h1 {
+    font-family: Copperplate, Papyrus;
+    font-size: 80px
+}
+p {
+    font-family: "Courier New", "Lucida Console", Monaco;
+    font-size: 30px
+}
+
+.autocomplete {
+  position: relative; /* so autocomplete entries show up just below? */
+  display: inline-block;
+}
+input {
+  border: 1px solid transparent;
+  background-color: #170505;
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+}
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #000000;
+  border-bottom: 1px solid #d4d4d4;
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #e9e9e94d;
 }

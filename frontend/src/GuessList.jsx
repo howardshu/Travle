@@ -1,5 +1,4 @@
 import React from "react";
-import "./styles.css";
 
 const colorMap = {
     'G': "green",
@@ -25,7 +24,7 @@ const GuessList = ({ guessList = [] }) => {
   if (guessList.length == 0) {
     return null;
   }
-  console.log(colorMap['G'])
+
   // TODO: implement guessList as a static variable so don't have to loop through whole list each time
   return (
     <div>

@@ -86,6 +86,8 @@ def search(input: SearchRequest):
     for song in songs:
         if re.search(song_title, song.title, re.IGNORECASE):
             search.append(song.title)
+            if len(search) >= 5:
+                break
 
     return SearchResponse(search=search)
 
