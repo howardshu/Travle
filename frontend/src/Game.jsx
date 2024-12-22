@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import GuessForm from "./GuessForm";
+import GuessForm, { closeAllLists } from "./GuessForm";
 import SearchResults from "./SearchResults";
 import GuessList from "./GuessList";
 import "./styles.css";
@@ -21,9 +21,10 @@ const Game = () => {
   const startGame = async () => {
     try {
       const response = await axios.post(`${API_BASE_URL}/start_game`);
+      closeAllLists()
       setGameStarted(true);
       setSolved(false)
-      setSearch([]);
+      // setSearch([]);
       setGuesses(0);
       setGuessList([]);
       setMessage("The game has started! Guess the song.")

@@ -3,6 +3,11 @@ import axios from "axios";
 
 const API_BASE_URL = "http://127.0.0.1:8000";
 
+const closeAllLists = () => {
+  const lists = document.querySelectorAll(".autocomplete-items");
+  lists.forEach((list) => list.remove());
+};
+
 const GuessForm = ({ onSubmit }) => {
   const [songTitle, setSongTitle] = useState("");
 //   const [searchResults, setSearchResults] = useState([]);
@@ -53,11 +58,6 @@ const GuessForm = ({ onSubmit }) => {
     e.target.parentNode.appendChild(a);
   };
 
-  const closeAllLists = () => {
-    const lists = document.querySelectorAll(".autocomplete-items");
-    lists.forEach((list) => list.remove());
-  };
-
   return (
     <form onSubmit={handleSubmit}>
       <div class="autocomplete" style={{ width:"300px" }}>
@@ -79,4 +79,5 @@ const GuessForm = ({ onSubmit }) => {
   );
 };
 
-export default GuessForm;
+export { closeAllLists };
+export default GuessForm; 
