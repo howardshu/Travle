@@ -2,12 +2,12 @@ import React from "react";
 
 const colorMap = {
     'G': "green",
-    'U': "yellow",
-    'D': "yellow",
+    'U': "#ccab17",
+    'D': "#ccab17",
     'H': "black",
     'L': "black",
     'B': "black",
-    'Y': "yellow"
+    'Y': "#ccab17"
 }
 
 const arrowMap = {
