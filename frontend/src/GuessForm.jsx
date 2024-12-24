@@ -17,6 +17,7 @@ const GuessForm = ({ onSubmit }) => {
     if (songTitle.trim()) {
       onSubmit(songTitle);
       setSongTitle("");
+      closeAllLists();
     }
   };
 
@@ -66,12 +67,8 @@ const GuessForm = ({ onSubmit }) => {
             value={songTitle}
             onInput={onChange}
             placeholder="Enter a song title"
+            id="guess-form"
         />
-        {/* <div id="autocomplete-list" class="autocomplete-items">
-            {searchResults.map((value, index) => (
-              <div key={index}>{value}</div>
-              ))}
-        </div> */}
       </div>
       {/* <input type="submit"> */}
       <button type="submit">Guess</button>
