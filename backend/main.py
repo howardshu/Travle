@@ -1,10 +1,10 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, ConfigDict
-from data import songs, get_songs
+from pydantic import BaseModel
 from contextlib import asynccontextmanager
 from game import Game
 from song import Song
+from get_songs import songs, get_songs
 import re
 """
 This file creates API endpoints for the backend at which the frontend can post user inputs and receive results

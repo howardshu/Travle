@@ -1,4 +1,4 @@
-from data import songs, get_songs
+from get_songs import songs, get_songs
 import random
 
 
